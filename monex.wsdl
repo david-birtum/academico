@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="MonexService"
+             targetNamespace="http://www.monex.com.mx/hub"
+             xmlns:tns="http://www.monex.com.mx/hub"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+
+  <types>
+    <xsd:schema targetNamespace="http://www.monex.com.mx/hub">
+      <xsd:element name="depositos" type="xsd:string"/>
+      <xsd:element name="edosCuentaResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="respuesta">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="folio" type="xsd:string"/>
+                  <xsd:element name="estado" type="xsd:string"/>
+                  <xsd:element name="mensaje" type="xsd:string"/>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </types>
+
+  <message name="depositosRequest">
+    <part name="parameters" element="tns:depositos"/>
+  </message>
+
+  <message name="depositosResponse">
+    <part name="parameters" element="tns:edosCuentaResponse"/>
+  </message>
+
+  <portType name="MonexPortType">
+    <operation name="depositos">
+      <input message="tns:depositosRequest"/>
+      <output message="tns:depositosResponse"/>
+    </operation>
+  </portType>
+
+  <binding name="MonexBinding" type="tns:MonexPortType">
+    <soap:binding style="document"
+                  transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="depositos">
+      <soap:operation soapAction="depositos"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+
+  <service name="MonexService">
+    <port name="MonexPort" binding="tns:MonexBinding">
+      <soap:address location="https://monexsoap.beeceptor.com/depositos"/>
+    </port>
+  </service>
+</definitions>
+
