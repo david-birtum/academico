@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions name="MonexService"
-             targetNamespace="http://www.monex.com.mx/hub"
-             xmlns:tns="http://www.monex.com.mx/hub"
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
              xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+             xmlns:tns="http://www.monex.com.mx/hub"
+             name="MonexService"
+             targetNamespace="http://www.monex.com.mx/hub"
+             xmlns="http://schemas.xmlsoap.org/wsdl/">
 
+  <!-- Tipos de datos -->
   <types>
     <xsd:schema targetNamespace="http://www.monex.com.mx/hub">
-      <xsd:element name="depositos" type="xsd:string"/>
+      <xsd:element name="depositos"/>
       <xsd:element name="edosCuentaResponse">
         <xsd:complexType>
           <xsd:sequence>
@@ -27,24 +29,25 @@
     </xsd:schema>
   </types>
 
-  <message name="depositosRequest">
+  <!-- Mensajes -->
+  <message name="DepositRequest">
     <part name="parameters" element="tns:depositos"/>
   </message>
-
-  <message name="depositosResponse">
+  <message name="DepositResponse">
     <part name="parameters" element="tns:edosCuentaResponse"/>
   </message>
 
+  <!-- PortType -->
   <portType name="MonexPortType">
     <operation name="depositos">
-      <input message="tns:depositosRequest"/>
-      <output message="tns:depositosResponse"/>
+      <input message="tns:DepositRequest"/>
+      <output message="tns:DepositResponse"/>
     </operation>
   </portType>
 
+  <!-- Binding -->
   <binding name="MonexBinding" type="tns:MonexPortType">
-    <soap:binding style="document"
-                  transport="http://schemas.xmlsoap.org/soap/http"/>
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
     <operation name="depositos">
       <soap:operation soapAction="depositos"/>
       <input>
@@ -56,10 +59,11 @@
     </operation>
   </binding>
 
+  <!-- Service -->
   <service name="MonexService">
     <port name="MonexPort" binding="tns:MonexBinding">
       <soap:address location="https://monexsoap.beeceptor.com/depositos"/>
     </port>
   </service>
-</definitions>
 
+</definitions>
