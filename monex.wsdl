@@ -62,7 +62,7 @@
   <!-- Service -->
   <service name="MonexService">
     <port name="MonexPort" binding="tns:MonexBinding">
-      <soap:address location="https://monexsoap.beeceptor.com/depositos"/>
+      <soap:address location="https://paymentsbirtum.free.beeceptor.com/depositos"/>
     </port>
   </service>
 
